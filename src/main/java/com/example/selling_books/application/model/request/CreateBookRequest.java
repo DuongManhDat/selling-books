@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -32,11 +33,14 @@ public class CreateBookRequest {
     @NotBlank(message = "Hình ảnh trống")
     String thumbnail;
 
-    @NotBlank(message = "Giá tiền trống")
-    Float price;
+    @NotBlank(message = "Giá bán trống")
+    Float sellingPrice;
+
+    @NotBlank(message = "Giá vốn trống")
+    Float cost;
 
     @NotBlank(message = "Thể loại trống")
-    Set<String> categories;
+    List<String> categories;
 
-    Set<String> bookImages;
+    List<String> bookImages;
 }

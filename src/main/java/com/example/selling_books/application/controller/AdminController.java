@@ -1,9 +1,13 @@
 package com.example.selling_books.application.controller;
 
+import com.example.selling_books.application.model.dto.BookDTO;
 import com.example.selling_books.application.model.dto.CategoryDTO;
 import com.example.selling_books.application.model.dto.UserDTO;
+import com.example.selling_books.application.model.request.CreateBookRequest;
 import com.example.selling_books.application.model.request.CreateCategoryRequest;
+import com.example.selling_books.application.service.BookService;
 import com.example.selling_books.application.service.CategoryService;
+import com.example.selling_books.application.service.CloudinaryService;
 import com.example.selling_books.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +29,10 @@ public class AdminController {
     private final UserService userService;
 
     private final CategoryService categoryService;
+
+    private final BookService bookService;
+
+    private final CloudinaryService cloudinaryService;
 
     @Value("${api.prefix}")
     private String apiPrefix;
@@ -63,13 +72,6 @@ public class AdminController {
         return "admin/order";
     }
 
-    //Book
-    @GetMapping("/books")
-    public String getListBooks(Model theModel) {
-        theModel.addAttribute("apiPrefix",apiPrefix);
-        return "admin/book";
-    }
-
     //Category
     @GetMapping("/categories")
     public String getListCategories(Model theModel,
@@ -92,4 +94,38 @@ public class AdminController {
         return "redirect:/api/v1/admin/categories";
     }
 
+    // Book
+
+    @GetMapping("/books")
+    public String getListBooks(Model theModel,
+                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "10") int limit) {
+        PageRequest pageRequest = PageRequest.of(page-1, limit, Sort.by("id").ascending());
+        Page<BookDTO> bookPage = bookService.getListBooks(pageRequest);
+        int totalPages = bookPage.getTotalPages();
+        List<BookDTO> books = bookPage.getContent();
+        List<CategoryDTO> categories = categoryService.getListCategories();
+        theModel.addAttribute("totalPages", totalPages);
+        theModel.addAttribute("books",books);
+        theModel.addAttribute("apiPrefix",apiPrefix);
+        theModel.addAttribute("categories",categories);
+        theModel.addAttribute("book", new CreateBookRequest());
+        return "admin/book";
+    }
+
+    @PostMapping("/books")
+    public String createBook(@ModelAttribute("book") CreateBookRequest createBookRequest,
+                             @RequestParam("image") MultipartFile image,
+                             @RequestParam("images") List<MultipartFile> images) {
+        if (image != null && !image.isEmpty()) {
+            String thumbnailUrl = cloudinaryService.uploadImage(image);
+            createBookRequest.setThumbnail(thumbnailUrl);
+        }
+        if (images != null && images.size() > 0) {
+            List<String> imgUrls = cloudinaryService.uploadImage(images);
+            createBookRequest.setBookImages(imgUrls);
+        }
+        bookService.createBook(createBookRequest);
+        return "redirect:/api/v1/admin/books";
+    }
 }

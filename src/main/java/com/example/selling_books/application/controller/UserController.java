@@ -32,7 +32,7 @@ public class UserController {
     public String signUp(Model theModel) {
         theModel.addAttribute("apiPrefix",apiPrefix);
         theModel.addAttribute("user", new CreateUserRequest());
-        return "shop/signup"; // Trả về tên của template, ví dụ: "hello" ứng với "hello.html"
+        return "shop/signup";
     }
 
     @GetMapping("/signin")
