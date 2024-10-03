@@ -1,5 +1,6 @@
-package com.example.selling_books.application.controller;
+package com.example.selling_books.application.controller.admin;
 
+import com.example.selling_books.application.entity.Book;
 import com.example.selling_books.application.model.dto.BookDTO;
 import com.example.selling_books.application.model.dto.CategoryDTO;
 import com.example.selling_books.application.model.dto.UserDTO;
@@ -9,11 +10,13 @@ import com.example.selling_books.application.service.BookService;
 import com.example.selling_books.application.service.CategoryService;
 import com.example.selling_books.application.service.CloudinaryService;
 import com.example.selling_books.application.service.UserService;
+import com.example.selling_books.application.utils.CoverType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,6 +97,12 @@ public class AdminController {
         return "redirect:/api/v1/admin/categories";
     }
 
+    @DeleteMapping("/categories/{categoryId}")
+    public String deleteCategoryById(@PathVariable Long categoryId) {
+        categoryService.deleteCategoryById(categoryId);
+        return "redirect:/api/v1/admin/categories";
+    }
+
     // Book
 
     @GetMapping("/books")
@@ -104,13 +113,22 @@ public class AdminController {
         Page<BookDTO> bookPage = bookService.getListBooks(pageRequest);
         int totalPages = bookPage.getTotalPages();
         List<BookDTO> books = bookPage.getContent();
+        List<String> coverTypes = CoverType.getDisplayNames();
         List<CategoryDTO> categories = categoryService.getListCategories();
         theModel.addAttribute("totalPages", totalPages);
         theModel.addAttribute("books",books);
         theModel.addAttribute("apiPrefix",apiPrefix);
         theModel.addAttribute("categories",categories);
         theModel.addAttribute("book", new CreateBookRequest());
+        theModel.addAttribute("coverTypes", coverTypes);
         return "admin/book";
+    }
+
+    @GetMapping("/books/{bookId}")
+    @ResponseBody
+    public ResponseEntity<BookDTO> getBookById(@PathVariable Long bookId) {
+        BookDTO book = bookService.getBookById(bookId);
+        return ResponseEntity.ok(book);
     }
 
     @PostMapping("/books")
@@ -126,6 +144,29 @@ public class AdminController {
             createBookRequest.setBookImages(imgUrls);
         }
         bookService.createBook(createBookRequest);
+        return "redirect:/api/v1/admin/books";
+    }
+
+    @PutMapping("/books/{bookId}")
+    public String updateBookById(@PathVariable Long bookId,
+                                 CreateBookRequest createBookRequest,
+                                 @RequestParam("image") MultipartFile image,
+                                 @RequestParam("images") List<MultipartFile> images) {
+        if (image != null && !image.isEmpty()) {
+            String thumbnailUrl = cloudinaryService.uploadImage(image);
+            createBookRequest.setThumbnail(thumbnailUrl);
+        }
+        if (images != null && images.size() > 0) {
+            List<String> imgUrls = cloudinaryService.uploadImage(images);
+            createBookRequest.setBookImages(imgUrls);
+        }
+        bookService.updateBookById(bookId,createBookRequest);
+        return "redirect:/api/v1/admin/books";
+    }
+
+    @DeleteMapping("/books/{bookId}")
+    public String deleteBookById(@PathVariable Long bookId) {
+        bookService.deleteBookById(bookId);
         return "redirect:/api/v1/admin/books";
     }
 }

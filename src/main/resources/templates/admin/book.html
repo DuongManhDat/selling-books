@@ -9,7 +9,7 @@
   <meta content="" name="description">
 
   <!-- Favicon -->
-  <link th:href="@{/img/favicon.ico}" rel="icon">
+  <link th:href="@{/admin/img/favicon.ico}" rel="icon">
 
   <!-- Google Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,14 +21,14 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Libraries Stylesheet -->
-  <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
-  <link th:href="@{/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" />
+  <link th:href="@{/admin/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+  <link th:href="@{/admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css}" rel="stylesheet" />
 
   <!-- Customized Bootstrap Stylesheet -->
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
 
   <!-- Template Stylesheet -->
-  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/admin/css/style.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -70,7 +70,7 @@
 
           <!-- The Modal -->
           <form th:action="@{${apiPrefix + '/admin/books'}}" th:object="${book}" method="post" enctype="multipart/form-data">
-            <div class="modal" id="myModal">
+            <div class="modal fade" id="myModal">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <!-- Modal Header -->
@@ -89,93 +89,139 @@
                       <input
                               type="text"
                               class="form-control"
-                              id="nameInput"
+                              id="createName"
                               th:field="*{name}"
                       />
-                      <label for="nameInput">Tên sách</label>
+                      <label for="createName">Tên sách</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
                               type="text"
                               class="form-control"
-                              id="authorInput"
+                              id="createAuthor"
                               th:field="*{author}"
                       />
-                      <label for="authorInput">Tên tác giả</label>
+                      <label for="createAuthor">Tên tác giả</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
                               type="text"
                               class="form-control"
-                              id="publisherInput"
+                              id="createSupplier"
+                              th:field="*{supplier}"
+                      />
+                      <label for="createSupplier">Nhà cung cấp</label>
+                    </div>
+                    <div class="form-floating mt-2 mb-3">
+                      <input
+                              type="text"
+                              class="form-control"
+                              id="creaetPublisher"
                               th:field="*{publisher}"
                       />
-                      <label for="publisherInput">Nhà xuất bản</label>
+                      <label for="creaetPublisher">Nhà xuất bản</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
                               type="text"
                               class="form-control"
-                              id="publicationYearInput"
+                              id="CreatePublicationYear"
                               th:field="*{publicationYear}"
                       />
-                      <label for="publicationYearInput">Năm xuất bản</label>
+                      <label for="CreatePublicationYear">Năm xuất bản</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <select
+                              class="form-select"
+                              id="floatingSelect"
+                              aria-label="Floating label select example"
+                              th:field="*{coverType}"
+                      >
+                        <option th:each="coverType:${coverTypes}" th:value="${coverType}" th:text="${coverType}"></option>
+                      </select>
+                      <label for="floatingSelect">Hình thức bìa</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
                               type="text"
                               class="form-control"
-                              id="descriptionInput"
+                              id="createDescription"
                               th:field="*{description}"
                       />
-                      <label for="descriptionInput">Mô tả</label>
+                      <label for="createDescription">Mô tả</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
                               type="file"
                               class="form-control"
-                              id="thumbnailInput"
+                              id="createThumbnail"
                               name="image"
                       />
-                      <label for="thumbnailInput">Ảnh</label>
+                      <label for="createThumbnail">Ảnh</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
-                              type="text"
+                              type="number"
                               class="form-control"
-                              id="sellingPriceInput"
+                              id="createSellingPrice"
+                              step="1000"
+                              min="0"
                               th:field="*{sellingPrice}"
                       />
-                      <label for="sellingPriceInput">Giá bán</label>
+                      <label for="createSellingPrice">Giá bán</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
-                              type="text"
+                              type="number"
                               class="form-control"
-                              id="costInput"
+                              id="createCost"
+                              step="1000"
+                              min="0"
                               th:field="*{cost}"
                       />
-                      <label for="costInput">Giá nhập</label>
+                      <label for="createCost">Giá nhập</label>
+                    </div>
+                    <div class="form-floating mt-2 mb-3">
+                      <input
+                              type="number"
+                              class="form-control"
+                              id="createDiscount"
+                              step="1"
+                              min="0"
+                              th:field="*{discount}"
+                      />
+                      <label for="createDiscount">Giảm giá</label>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="createCategories" data-bs-toggle="dropdown" aria-expanded="false">
                           Thể loại
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <ul class="dropdown-menu" aria-labelledby="createCategories">
                           <li th:each="category:${categories}" ><input th:field="*{categories}" th:value="${category.name}" type="checkbox" th:text="${category.name}"></li>
                         </ul>
                       </div>
                     </div>
                     <div class="form-floating mt-2 mb-3">
                       <input
+                              type="number"
+                              class="form-control"
+                              id="createPageCount"
+                              step="1"
+                              min="0"
+                              th:field="*{pageCount}"
+                      />
+                      <label for="createPageCount">SỐ trang</label>
+                    </div>
+                    <div class="form-floating mt-2 mb-3">
+                      <input
                               type="file"
                               class="form-control"
-                              id="imagesInput"
+                              id="createImages"
                               name="images"
                               multiple
                       />
-                      <label for="imagesInput">Ảnh mô tả</label>
+                      <label for="createImages">Ảnh mô tả</label>
                     </div>
 
                   </div>
@@ -217,19 +263,16 @@
             <tr th:each="book:${books}">
               <td th:text="${book.id}"></td>
               <td th:text="${book.name}"></td>
-              <td th:text="${book.sellingPrice}"></td>
-              <td th:text="${book.cost}"></td>
+              <td th:text="${book.getSellingPriceString()} + ' đ'"></td>
+              <td th:text="${book.getCostString()} + ' đ'"></td>
               <td th:text="${book.stock}"></td>
               <td th:text="${book.createdAt}"></td>
               <td th:text="${book.updatedAt}"></td>
               <td>
-                <a href="" class="btn m-1"
-                ><i class="fas fa-trash-alt"></i
-                ></a>
-                <a href="" class="btn m-1"><i class="fas fa-lock"></i></a>
-                <a href="" class="btn m-1"
-                ><i class="fas fa-unlock"></i
-                ></a>
+                <button type="button" class="btn btn-success infor-btn" th:data-id="${book.id}" data-bs-toggle="modal" data-bs-target="#inforModal"><i class="far fa-eye"></i></button>
+                <button type="button" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                <button type="button" class="btn btn-danger delete-btn" data-bs-toggle="modal" th:data-id="${book.id}"
+                        data-bs-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
               </td>
             </tr>
             </tbody>
@@ -246,7 +289,166 @@
       </div>
     </div>
     <!-- List Books End -->
+    <form th:action="@{${apiPrefix + '/admin/books'}}" th:method="post" id="deleteForm">
+      <input type="hidden" name="_method" value="delete"/>
+      <div class="modal" id="deleteModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Thông báo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Bạn có đồng ý xóa không?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+              <button type="submit" class="btn btn-primary">Đồng ý</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Delete Modal Start -->
 
+    <!-- Delete Modal End -->
+
+    <!-- Information Modal Start   -->
+    <form th:action="@{${apiPrefix + '/admin/books'}}" th:method="post" id="updateForm" th:object="${book}" enctype="multipart/form-data">
+      <input type="hidden" name="_method" value="put"/>
+      <div class="modal" id="inforModal">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Thông tin chi tiết </h4>
+              <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="row">
+                <!-- Form Section -->
+                <div class="col-md-6 inputField">
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updateName" th:field="*{name}"/>
+                    <label for="updateName">Tên sách</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updateAuthor" th:field="*{author}"/>
+                    <label for="updateAuthor">Tên tác giả</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updateSupplier" th:field="*{supplier}"/>
+                    <label for="updateSupplier">Nhà cung cấp</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updatePublisher" th:field="*{publisher}"/>
+                    <label for="updatePublisher">Nhà xuất bản</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updatePublicationYear" th:field="*{publicationYear}"/>
+                    <label for="updatePublicationYear">Năm xuất bản</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <select
+                            class="form-select"
+                            id="updateCoverType"
+                            aria-label="Floating label select example"
+                            th:field="*{coverType}"
+                    >
+                      <option th:each="coverType:${coverTypes}" th:value="${coverType}" th:text="${coverType}"></option>
+                    </select>
+                    <label for="updateCoverType">Hình thức bìa</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="text" class="form-control" id="updateDescription" th:field="*{description}"/>
+                    <label for="updateDescription">Mô tả</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="file" class="form-control" id="updateThumbnail"  name="image"/>
+                    <label for="updateThumbnail">Ảnh</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="number" class="form-control" id="updateSellingPrice" th:field="*{sellingPrice}"/>
+                    <label for="updateSellingPrice">Giá bán</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="number" class="form-control" id="updateCost" th:field="*{cost}"/>
+                    <label for="updateCost">Giá nhập</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="number" class="form-control" id="updateDiscount" th:field="*{discount}"/>
+                    <label for="updateDiscount">Giảm giá</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="number" class="form-control" id="updatePageCount" th:field="*{pageCount}"/>
+                    <label for="updatePageCount">Số trang</label>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="updateCategories" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thể loại
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="updateCategories">
+                        <li th:each="category:${categories}" ><input class="category-element"  th:field="*{categories}" th:value="${category.name}" type="checkbox" th:text="${category.name}"></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-floating mt-2 mb-3">
+                    <input type="file" class="form-control" id="updateImages"  name="images" multiple/>
+                    <label for="updateImages">Ảnh mô tả</label>
+                  </div>
+                </div>
+                <!-- Carousel Section -->
+                <div class="col-md-6 imgInput">
+                  <div id="thumbnail" class="card">
+
+                  </div>
+                  <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators d-flex justify-content-center" id="bookSlide">
+                    </div>
+                    <div class="carousel-inner" id="bookList">
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                      type="button"
+                      class="btn btn-danger"
+                      data-bs-dismiss="modal"
+              >
+                Hủy
+              </button>
+              <button
+                      type="submit"
+                      class="btn btn-primary"
+              >
+                Cập nhật
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Information Modal End   -->
 
     <!-- Footer Start -->
     <div class="container-fluid pt-4 px-4">
@@ -272,18 +474,103 @@
 </div>
 
 <!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/lib/chart/chart.min.js}"></script>
-<script th:src="@{/lib/easing/easing.min.js}"></script>
-<script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
-<script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
-<script th:src="@{/lib/tempusdominus/js/moment.min.js}"></script>
-<script th:src="@{/lib/tempusdominus/js/moment-timezone.min.js}"></script>
-<script th:src="@{/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js}"></script>
+<script th:src="@{/admin/lib/chart/chart.min.js}"></script>
+<script th:src="@{/admin/lib/easing/easing.min.js}"></script>
+<script th:src="@{/admin/lib/waypoints/waypoints.min.js}"></script>
+<script th:src="@{/admin/lib/owlcarousel/owl.carousel.min.js}"></script>
+<script th:src="@{/admin/lib/tempusdominus/js/moment.min.js}"></script>
+<script th:src="@{/admin/lib/tempusdominus/js/moment-timezone.min.js}"></script>
+<script th:src="@{/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js}"></script>
 
 <!-- Template Javascript -->
-<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/admin/js/main.js}"></script>
+<script>
+ // Delete Book
+  let deleteBtns = document.querySelectorAll('.delete-btn');
+  var apiPrefix = '[[${apiPrefix}]]'
+  deleteBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+          let bookId = btn.getAttribute('data-id');
+          let form = document.getElementById('deleteForm');
+          form.setAttribute('action',`${apiPrefix}/admin/books/${bookId}`);
+      });
+  });
+
+  //Display information book
+  let inforBtns = document.querySelectorAll('.infor-btn');
+  inforBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      let bookId = btn.getAttribute('data-id');
+      fetch(`${apiPrefix}/admin/books/${bookId}`)
+      .then(response => response.json())
+      .then(data => {
+      document.getElementById('updateForm').setAttribute('action',`${apiPrefix}/admin/books/${bookId}`);
+      document.getElementById('updateName').value = data.name;
+      document.getElementById('updateAuthor').value = data.author;
+      document.getElementById('updatePublisher').value = data.publisher;
+      document.getElementById('updatePublicationYear').value = data.publicationYear;
+      document.getElementById('updateDiscount').value = data.discount;
+      document.getElementById('updateSupplier').value = data.supplier;
+      let categories =[];
+      data.categories.forEach(category => {
+        categories.push(category.name);
+      });
+      document.querySelectorAll('.category-element').forEach(category => {
+        if(categories.includes(category.value)) category.checked = true;
+      });
+      document.getElementById('updateCoverType').value = data.coverType;
+      document.getElementById('updateDescription').value = data.description;
+      document.getElementById('updateSellingPrice').value = data.sellingPrice;
+      document.getElementById('updateCost').value = data.cost;
+      document.getElementById('updatePageCount').value = data.pageCount;
+      document.getElementById('thumbnail').innerHTML=`<img src="${data.thumbnail}" class="w-100"></img>`;
+      let listBookHTML = '';
+      let bookSlides = '';
+      let count = 0;
+      data.bookImages.forEach(bookImage => {
+        if(count === 0) {
+          bookSlides += `<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${count}" class="active" aria-current="true" aria-label="${count}"></button>`;
+          listBookHTML += `<div class="carousel-item active">
+                         <img src="${bookImage.image_url}" class="d-block mw-100" alt="...">
+                         </div>`;
+          count ++;
+        }
+        else {
+          bookSlides += `<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${count}"  aria-label="${count}"></button>`;
+          listBookHTML += `<div class="carousel-item">
+                         <img src="${bookImage.image_url}" class="d-block w-100" alt="...">
+                         </div>`;
+          count ++;
+        }
+      });
+
+      console.log(bookSlides);
+      console.log(listBookHTML);
+
+       const carouselIndicators = document.getElementById('bookSlide');
+        if (carouselIndicators) {
+          carouselIndicators.innerHTML = bookSlides;
+        } else {
+          console.error("Lỗi: Không tìm thấy phần tử carouselIndicators");
+        }
+
+        const carouselInner = document.getElementById('bookList');
+        if (carouselInner) {
+          carouselInner.innerHTML = listBookHTML;
+        } else {
+          console.error("Lỗi: Không tìm thấy phần tử carouselInner");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    })
+  });
+
+
+</script>
 </body>
 
 </html>

@@ -39,8 +39,20 @@ public class CreateBookRequest {
     @NotBlank(message = "Giá vốn trống")
     Float cost;
 
+    @NotBlank(message = "Giảm giá trống")
+    Float discount;
+
     @NotBlank(message = "Thể loại trống")
     List<String> categories;
 
     List<String> bookImages;
+
+    @NotBlank(message = "Hình thức bìa trống")
+    String coverType;
+
+    @NotBlank(message = "Số trang trống")
+    int pageCount;
+
+    @NotBlank(message = "Nhà cung cấp trống")
+    String supplier;
 }

@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @MappedSuperclass
 public class BaseEntity {
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @Column(name = "updated_at")
@@ -40,11 +40,18 @@ public class BaseEntity {
     }
 
     public String getFormattedCreatedAt() {
-        return createdAt.toLocalDateTime().format(FORMATTER);
+        if(getCreatedAt() != null){
+            return createdAt.toLocalDateTime().format(FORMATTER);
+        }
+        return null;
     }
 
     public String getFormattedUpdatedAt() {
-        return updatedAt.toLocalDateTime().format(FORMATTER);
+        if(getUpdatedAt() != null)
+        {
+            return updatedAt.toLocalDateTime().format(FORMATTER);
+        }
+        return null;
     }
 
 }

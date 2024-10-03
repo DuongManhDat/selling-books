@@ -1,0 +1,177 @@
+<th:block th:fragment="topbar(apiPrefix)">
+  <!-- Topbar Start -->
+  <div class="container-fluid">
+    <div class="row bg-danger">
+      <div class="col d-flex justify-content-center">
+        <img
+                th:src="@{/shop/img/NCC_ZenBooks_0924_header_1263x60.webp}"
+                alt=""
+                height="58px"
+        />
+      </div>
+    </div>
+    <div class="row d-lg-flex align-items-center py-2 px-lg-5 justify-content-between">
+      <div class="col-lg-2">
+        <a href="#" class="text-decoration-none">
+          <img th:src="@{shop/img/fahasa-logo.webp}" alt="Fahasa" height="40" />
+        </a>
+      </div>
+      <div class="col-lg-5">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="...">
+          <button class="btn btn-danger" type="button"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="d-inline-flex align-item-center h-100">
+          <div class="function-item position-relative">
+            <a href="#" class="btn d-flex flex-column">
+              <i class="bi bi-bell"></i>
+              <span>Thông báo</span>
+            </a>
+            <div class="box-dropdown bg-white">
+              <div class="d-flex align-self-start g-5">
+                <i class="bi bi-bell"></i>
+                <span style="font-weight: 700;">Thông báo</span>
+              </div>
+              <div>
+                <button class="btn btn-danger my-1">Đăng nhập</button>
+                <button class="btn sub-btn my-1">Đăng ký </button>
+              </div>
+            </div>
+          </div>
+          <div class="function-item">
+            <a th:href="@{${apiPrefix +'/customer/shopping-cart'}}" class="btn d-flex flex-column">
+              <i class="bi bi-cart"></i>
+              <span>Giỏ hàng</span>
+            </a>
+          </div>
+          <div class="function-item position-relative">
+            <a th:href="@{${apiPrefix + '/customer/account/login'}}" class="btn d-flex flex-column">
+              <i class="bi bi-person"></i>
+              <span>Tài khoản</span>
+            </a>
+            <div class="box-dropdown bg-white">
+              <button class="btn btn-danger my-1 login-title" data-bs-toggle="modal" data-bs-target="#login-modal" >Đăng nhập</button>
+              <button class="btn sub-btn my-1 signup-title" data-bs-toggle="modal" data-bs-target="#login-modal" >Đăng ký </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Topbar End -->
+
+  <!-- Login Start -->
+  <div class="modal fade" id="login-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex align-items-center">
+          <button class=" btn modal-title login-title" type="button" >Đăng nhập</button>
+          <button class=" btn modal-title signup-title" type="button">Đăng ký</button>
+        </div>
+        <div class="modal-body">
+          <!-- Login Form Start -->
+          <form  class=" g-3 login-form" style="display: none;">
+            <div class="input-info">
+              <label for="phoneNumberLoginModel" class="form-label">Số điện thoại/Email</label>
+              <input type="text" class="form-control" id="phoneNumberLoginModel" placeholder="Nhập số điện thoại hoặc email" required>
+            </div>
+            <div class="input-info">
+              <label for="passwordInputLoginModel" class="form-label">Mật khẩu</label>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control" id="passwordInputLoginModel" placeholder="Nhập mật khẩu" aria-label="Recipient's username" aria-describedby="button-password-login-model" required>
+                <button class="btn btn-outline-secondary" type="button" id="button-password-login-model">Hiện</button>
+              </div>
+            </div>
+            <div class="btn-group d-flex flex-column justify-content-center align-items-center mb-4">
+              <button type="button" class="btn btn-danger text-white fw-bold">Đăng nhập</button>
+              <button type="button" class="btn sub-btn fw-bold " data-bs-dismiss="modal">Bỏ qua</button>
+            </div>
+          </form>
+          <!-- Login Form End -->
+
+          <!-- Signup Form Start -->
+          <form class=" g-3 signup-form" >
+            <div class="input-info">
+              <label for="usernameInputModel" class="form-label">Họ và tên</label>
+              <input type="text" class="form-control" id="usernameInputModel" placeholder="Nhập họ và tên" required>
+            </div>
+            <div class="input-info">
+              <label for="phoneNumberSnModel" class="form-label">Số điện thoại/Email</label>
+              <input type="text" class="form-control" id="phoneNumberSnModel" placeholder="Nhập số điện thoại hoặc email" required>
+            </div>
+            <div class="input-info">
+              <label for="passwordInputSignupModel" class="form-label">Mật khẩu</label>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control" id="passwordInputSignupModel" placeholder="Nhập mật khẩu" aria-label="Recipient's username" aria-describedby="button-password-signup-model" required>
+                <button class="btn btn-outline-secondary" type="button" id="button-password-signup-model">Hiện</button>
+              </div>
+            </div>
+            <div class="btn-group d-flex flex-column justify-content-center align-items-center mb-4">
+              <button type="button" class="btn btn-danger text-white fw-bold">Đăng ký</button>
+              <button type="button" class="btn sub-btn fw-bold " data-bs-dismiss="modal">Bỏ qua</button>
+            </div>
+          </form>
+          <!-- Signup Form End -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Login End -->
+  <script>
+        // Password Start
+        const passwordInput = document.getElementById("passwordInputLoginModel");
+        const toggleBtn = document.getElementById("button-password-login-model");
+        toggleBtn.addEventListener('click', () => {
+          if(passwordInput.type === "password") {
+            passwordInput.type = "text";
+          }
+          else {
+            passwordInput.type = "password";
+          }
+          if(toggleBtn.textContent == "Hiện") {
+            toggleBtn.textContent = "Ẩn"
+          }
+          else {
+            toggleBtn.textContent = "Hiện"
+          }
+        });
+        const passwordInputSignup = document.getElementById("passwordInputSignupModel");
+        const toggleBtnSignup = document.getElementById("button-password-signup-model");
+        toggleBtnSignup.addEventListener('click', () => {
+          if(passwordInputSignup.type === "password") {
+            passwordInputSignup.type = "text";
+          }
+          else {
+            passwordInputSignup.type = "password";
+          }
+          if(toggleBtnSignup.textContent == "Hiện") {
+            toggleBtnSignup.textContent = "Ẩn"
+          }
+          else {
+            toggleBtnSignup.textContent = "Hiện"
+          }
+        });
+        // Password End
+
+        // Login/Signup Start
+        const loginBtnModel = document.querySelectorAll(".login-title");
+        const signupBtnModel = document.querySelectorAll(".signup-title");
+        const loginFormModel = document.querySelectorAll(".login-form");
+        const signupFormModel = document.querySelectorAll(".signup-form");
+        loginBtnModel.forEach(btn => btn.addEventListener("click",() => {
+            console.log(loginForm);
+          loginFormModel.forEach(form => form.style.display="block");
+          signupFormModel.forEach(form => form.style.display="none");
+        }));
+        signupBtnModel.forEach(btn => btn.addEventListener("click",() => {
+            console.log('signup');
+            loginFormModel.forEach(form => form.style.display="none");
+            signupFormModel.forEach(form => form.style.display="block");
+        }));
+        // Login/Signup End
+      </script>
+</th:block>

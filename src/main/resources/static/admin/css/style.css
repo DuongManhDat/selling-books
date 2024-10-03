@@ -275,3 +275,35 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+table td {
+    vertical-align: middle;
+}
+
+.modal-body .row {
+    display: flex;
+}
+
+#thumbnail {
+    width: 100%;
+}
+
+.modal-body .inputField {
+    flex-basis: 70%;
+}
+
+.modal-body .imgInput {
+    flex-basis: 30%;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+
+}
+
+#carouselImages {
+    width: 100%;
+}
+
+.carousel-inner {
+    width: 100%;
+}

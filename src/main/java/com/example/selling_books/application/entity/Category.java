@@ -1,5 +1,6 @@
 package com.example.selling_books.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +27,7 @@ public class Category extends BaseEntity {
     String description;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     Set<Book> books;
 
 }

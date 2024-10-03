@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahasa</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/shop/css/style.css}" />
+</head>
+<body>
+<!-- Topbar Start -->
+<th:block th:replace="~{shop/fragment/topbar::topbar(apiPrefix=${apiPrefix})}"></th:block>
+<!-- Topbar End -->
+
+<!-- Shop Start -->
+<div class="container-fluid bg-light">
+    <div class="row px-lg-5">
+        <!-- Shop Sidebar start -->
+        <div class="col-lg-3">
+            <!-- Price start -->
+            <div class="bg-white p-3 m-2 shadow-sm">
+                <h6 class="section-title text-uppercase"><span class="">Giá</span></h6>
+                <form action="">
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" checked id="price-all">
+                        <label for="price-all" class="custom-control-label">Tất cả</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="price-1">
+                        <label for="price-1" class="custom-control-label">0đ - 150,000đ</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="price-2">
+                        <label for="price-2" class="custom-control-label">150,000đ - 300,000đ</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="price-3">
+                        <label for="price-3" class="custom-control-label">300,000đ - 500,000đ</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="price-4">
+                        <label for="price-4" class="custom-control-label">500,000đ - 700,000đ</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="price-5">
+                        <label for="price-5" class="custom-control-label">700,000đ - Trở lên</label>
+                    </div>
+                </form>
+            </div>
+            <!-- Price end -->
+            <!-- Cover Type start -->
+            <div class="bg-white p-3 m-2 shadow-sm">
+                <h6 class="section-title text-uppercase"><span class="">Hình thức</span></h6>
+                <form action="">
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="cover-type-1">
+                        <label for="cover-type-1" class="custom-control-label">Bìa mềm</label>
+                    </div>
+                    <div class="custom-control custom-checkbox d-flex align-items-center gap-3 mb-1">
+                        <input type="checkbox" class="custom-control-input" id="cover-type-2">
+                        <label for="cover-type-2" class="custom-control-label">Bìa cứng</label>
+                    </div>
+                </form>
+            </div>
+            <!-- Cover Type end -->
+        </div>
+        <!-- Book start -->
+        <div class="col-lg-9">
+            <div class="bg-white p-3 m-2">
+                <div class="toolbar d-flex align-items-center">
+                    <span class="text-nowrap me-2">Sắp xếp theo:</span>
+                    <select class="form-select w-25" name="" id="">
+                        <option selected>Bán chạy tuần</option>
+                        <option value="1">Bán chạy tháng</option>
+                        <option value="2">Bán chạy năm</option>
+                    </select>
+                </div>
+                <!-- List Books start -->
+                <div class="collection-list row my-4">
+                    <div class="collection-item col-lg-4 col-xl-3 col-md-6 p-3" th:each="book:${books}">
+                        <a th:href="@{${apiPrefix + '/customer/books/' + book.id}}" class="text-decoration-none text-black">
+                            <div class="collection-img position-relative">
+                                <img th:src="${book.thumbnail}" alt="" class="w-100">
+                                <span th:if="${book.discount != 0}" class="position-absolute text-white fw-bold" th:text="${book.getDiscountString()} + '%'"></span>
+                            </div>
+                            <div class="text-center d-flex flex-column align-items-start">
+                                <p class="text-capitalize d-flex justify-content-start text-custom" th:text="${book.name}"></p>
+                                <span class="fw-bold text-danger" th:text="${book.calculatePrice()} + ' đ'"></span>
+                                <span th:if="${book.discount != 0}" class="text-decoration-line-through" th:text="${book.getSellingPriceString()} + ' đ'"></span>
+                                <span th:unless="${book.discount != 0}" class="text-decoration-line-through" th:text="${book.getSellingPriceString()} + ' đ'" style="visibility: hidden;"></span>
+                                <div class="rating">
+                                    <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                    <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                    <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                    <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                    <span class="text-warning"><i class="bi bi-star-fill"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- List Book end -->
+                <!-- Pagination start -->
+                <nav class="row">
+                    <form th:action="@{${apiPrefix + '/customer/books'}}" method="get">
+                        <ul class="pagination d-flex justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${totalPages > 1}" th:each="num : ${#numbers.sequence(1, totalPages)}"><button class="page-link" type="submit" name="page" th:text="${num}" th:value="${num}"></button></li>
+                            <li class="page-item" th:unless="${totalPages > 1}" th:each="num : ${#numbers.sequence(1, totalPages + 1)}"><button class="page-link" type="submit" name="page" th:text="${num}" th:value="${num}"></button></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </form>
+                </nav>
+                <!-- Pagination end -->
+            </div>
+        </div>
+        <!-- Book end -->
+        <!-- Shop Sidebar end -->
+    </div>
+
+</div>
+<!-- Shop End -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+></script>
+<script>
+
+</script>
+</body>
+</html>

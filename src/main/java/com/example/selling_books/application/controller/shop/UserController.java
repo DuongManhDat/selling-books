@@ -1,4 +1,4 @@
-package com.example.selling_books.application.controller;
+package com.example.selling_books.application.controller.shop;
 
 import com.example.selling_books.application.entity.User;
 import com.example.selling_books.application.model.dto.UserDTO;

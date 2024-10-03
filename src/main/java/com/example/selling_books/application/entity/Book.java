@@ -1,5 +1,6 @@
 package com.example.selling_books.application.entity;
 
+import com.example.selling_books.application.utils.CoverType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,13 +27,22 @@ public class Book extends BaseEntity {
     @Column(name="author")
     String author;
 
+    @Column(name="supplier")
+    String supplier;
+
+    @Column(name="cover_type")
+    CoverType coverType;
+
+    @Column(name="page_count")
+    int pageCount;
+
     @Column(name="publisher")
     String publisher;
 
     @Column(name="publication_year")
     String publicationYear;
 
-    @Column(name="description")
+    @Column(name="description", columnDefinition = "TEXT")
     String description;
 
     @Column(name="thumbnail", length = 300)
@@ -65,4 +75,5 @@ public class Book extends BaseEntity {
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<BookImage> bookImages;
+
 }

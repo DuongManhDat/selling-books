@@ -9,6 +9,8 @@ public interface BookService {
 
     Page<BookDTO> getListBooks (PageRequest pageRequest);
 
+    BookDTO getBookById(Long id);
+
     BookDTO createBook (CreateBookRequest createBookRequest);
 
     BookDTO updateBookById(Long id, CreateBookRequest createBookRequest);
